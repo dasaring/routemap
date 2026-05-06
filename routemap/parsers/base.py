@@ -50,3 +50,17 @@ class BaseParser(ABC):
     def clear(self) -> None:
         """Clear cached routes."""
         self._routes = []
+
+    def filter_by_method(self, method: str) -> list[RouteEntry]:
+        """Return all routes matching the given HTTP method.
+
+        Args:
+            method: HTTP method to filter by (e.g. 'GET', 'POST').
+
+        Returns:
+            A list of RouteEntry objects with the specified method.
+        """
+        return [
+            route for route in self.get_routes()
+            if route.method == method.upper()
+        ]
