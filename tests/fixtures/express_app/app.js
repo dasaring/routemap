@@ -20,4 +20,15 @@ app.post('/login', async (req, res) => {
 const usersRouter = require('./routes/users');
 app.use('/api', usersRouter);
 
+// Catch-all 404 handler for unmatched routes
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not Found' });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
+});
+
 module.exports = app;
