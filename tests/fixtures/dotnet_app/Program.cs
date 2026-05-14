@@ -10,6 +10,12 @@ app.MapGet("/items", () => Results.Ok(new[] { "item1", "item2" }));
 
 app.MapPost("/items", (CreateItemRequest req) =>
 {
+    if (string.IsNullOrWhiteSpace(req.Name))
+        return Results.BadRequest(new { error = "Name is required" });
+
+    if (req.Price <= 0)
+        return Results.BadRequest(new { error = "Price must be greater than zero" });
+
     return Results.Created($"/items/1", req);
 });
 
